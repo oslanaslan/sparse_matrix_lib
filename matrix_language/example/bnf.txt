@@ -1,0 +1,79 @@
+<START> -> <DECLARE> : <DECLAREPART> <PROCESS> : <PROCESSPART> | <DECLARE> : <PROCESS> : <PROCESSPART> | <DECLARE> : <DECLAREPART> <PROCESS> : | <DECLARE> : <PROCESS> :
+
+<DECLAREPART> -> <DEFINITION> | <DEFINITION> <DECLAREPART>
+
+<DEFINITION> -> <TYPE> : <PERMDECS> ; 
+
+<PERMDECS> -> <PERMDEC> | <PERMDEC> , <PERMDECS>
+
+<PERMDEC> -> <NAME> | <NAME> ( <PARAMETR> )
+
+<PARAMETR> -> <STRING> | <ICONST> | <FCONST> | <ICONST> / <ICONST> | - <ICONST> / <ICONST> | - <ICONST> | - <FCONST>
+
+/*
+
+<PROCESSPART> -> ; | <COMMAND> ; | <COMMAND> ; <PROCESSPART> | ; <PROCESSPART>
+
+<COMMAND> -> <OBJ> <OPERATOR> <COMMAND> | ( <OBJ> <OPERATOR> <COMMAND> ) | <OBJ>
+
+*/
+
+
+<PROCESSPART> -> <OBJ> <OP> | ( <BRAKET> <OP> | ; <PROCESSPART> | <END> 
+
+<OP> -> <OPERATOR> <PROCESSPART> | : <FUN> <OP> | [ <S> <OP> | ; <PROCESSPART>
+
+<BRAKET> -> <OBJ> <OB> | ( <BRAKET> <OB>
+
+<OB> -> <OPERATOR> <BRAKET> | : <FUN> <OB> | ) | [ <S> <OB>
+
+<S> -> <OBJ> <OS> | ( <BRAKET> <OS>
+
+<OS> -> <OPERATOR> <BRAKET> | : <FUN> <OS> | ] | [ <S> <OS> | , <S>
+
+<OBJ> -> <NAME> | <ICONST> | <FCONST>
+
+<FUN> -> <READ> ( <STRING> ) | <WRITE> ( <STRING> ) | <PRINT> | <ROTATE> | <ROW> ( <ICONST> ) | <COLUMN> ( <ICONST> ) | <MAKE_CANONICAL>
+
+
+<OPERATOR> -> + | - | * | / | ^ | =
+
+<OBJ> -> <NAME> | <NAME> <OBJ_TYPE_1> | <NAME> : <OBJ_TYPE_2>
+
+<OBJ_TYPE_1> -> [ <ICONST> , <ICONST> ] | [ <ICONST> ]
+
+<OBJ_TYPE_2> -> <READ> ( <STRING> ) | <WRITE> ( <STRING> ) | <PRINT> | <ROTATE> | <ROW> ( <ICONST> ) | <COLUMN> ( <ICONST> ) | <MAKE_CANONICAL>
+
+# В итоге имеем конечные лексемы 
+
+синтаксический 		лексический		
+		 	
+<OPERATOR> 	 	<OP>
+
+<DECLARE> 	 	<DECLARE> 
+
+<PROCESS> 	 	<PROCESS>
+
+<TYPE> 		 	<TYPE>
+
+<NAME> 		 	<PEREM>
+
+<STRING> 	 	<STRING>
+
+<ICONST> 	 	<ICONST>
+
+<FCONST> 	 	<FCONST
+
+<READ>			-
+
+<WRITE>			-
+
+<PRINT>			-
+
+<ROTATE>		-
+
+<ROW>			-
+
+<COLUMN>		-
+
+<MAKE_CANONICAL>	-
