@@ -17,7 +17,6 @@ OBJS = $(patsubst %.cpp, %.o, $(SOURCES))
 
 all: $(BINARIES)
 
-
 rational_number: rational_number.o $(OBJS)
 	$(CXX) $(CXX_FLAGS) -o $@ $^
 
@@ -38,4 +37,3 @@ dist_clean: clean
 	$(RM) -f $(BINARIES)
 
 .PHONY: all clean dist_clean
-

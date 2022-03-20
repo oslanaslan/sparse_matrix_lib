@@ -7,11 +7,13 @@ Rational_number::Rational_number(const int x) {
 	m = 1;
 	z = x < 0 ? -1 : 1;
 }
+
 Rational_number::Rational_number(const long x) {
 	n = (uint32_t)(x < 0 ? x*(-1) : x);
 	m = 1;
 	z = x < 0 ? -1 : 1;
 }
+
 Rational_number::Rational_number(const char *str) {  
 	if (str == NULL) throw Exception(NULLPTR_ERR, "Rational_number(const char *str)");
 	int nn = 1;
@@ -94,6 +96,7 @@ Rational_number::Rational_number(const char *str) {
 	free(str1);
 	free(str2);
 }
+
 Rational_number::Rational_number(const long x, const long y) {
 	n = (uint32_t)(x < 0 ? x*(-1) : x);
 	if (y == 0) {
@@ -105,6 +108,7 @@ Rational_number::Rational_number(const long x, const long y) {
 	n /= k;
 	m /= k;
 }
+
 Rational_number::Rational_number(const uint32_t x, const uint32_t y) {
 	if (y == 0) { throw Exception(ZERODIV_ERR, "Rational_number(const uint32_t x, const uint32_t y)"); }
 	n = x;
@@ -114,6 +118,7 @@ Rational_number::Rational_number(const uint32_t x, const uint32_t y) {
 	n /= k;
 	m /= k;
 }
+
 Rational_number::Rational_number(const uint32_t x, const uint32_t y, const int a) {
 	if (y == 0) { throw Exception(ZERODIV_ERR, "Rational_number(const uint32_t x, const uint32_t y, const int a)"); }
 	n = x;
@@ -123,14 +128,17 @@ Rational_number::Rational_number(const uint32_t x, const uint32_t y, const int a
 	n /= k;
 	m /= k;
 }
+
 // Операторы
 Rational_number Rational_number::operator =(const Rational_number &a) {
 	if (&a == this) return *this;
 	return Rational_number(this->n = a.n, this->m = a.m, this->z = a.z >= 0 ? 1 : -1);
 }
+
 Rational_number Rational_number::operator +() const {
 	return *this;
 }
+
 Rational_number operator +(const Rational_number &a, const Rational_number &b) {
 	if (a.m == 0 || b.m == 0) throw Exception(ZERODIV_ERR, "friend Rational_number operator +(const Rational_number &a, const Rational_number &b)");
 	Rational_number c;
@@ -147,14 +155,17 @@ Rational_number operator +(const Rational_number &a, const Rational_number &b) {
 	c.m /= k;
 	return c;
 }
+
 Rational_number Rational_number::operator -() {
 	return Rational_number(n, m, z * -1);
 }
+
 Rational_number operator -(const Rational_number &a, const Rational_number &b) { 
 	Rational_number c = Rational_number(b.get_n(), b.get_m(), b.get_z() * (-1));
 	Rational_number d = a + c;
 	return d;
 }
+
 Rational_number operator *(const Rational_number &a, const Rational_number &b) {
 	Rational_number c;
 	if (a.get_n() * b.get_n()> UINT_MAX) throw Exception(OVERFLOW_ERR, "friend Rational_number operator *(const Rational_number &a, const Rational_number &b)");
@@ -167,6 +178,7 @@ Rational_number operator *(const Rational_number &a, const Rational_number &b) {
 	c.m /= k;
 	return c;
 }
+
 Rational_number operator /(const Rational_number &a, const Rational_number &b) {
 	Rational_number c;
 	if (a.n * b.m > UINT_MAX) throw Exception(OVERFLOW_ERR, "friend Rational_number operator /(const Rational_number &a, const Rational_number &b)");
@@ -179,42 +191,49 @@ Rational_number operator /(const Rational_number &a, const Rational_number &b) {
 	c.m /= k;
 	return c;
 }
+
 bool Rational_number::operator <(const Rational_number &b) const {
 	int32_t aa, bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa < bb ? true : false;
 }
+
 bool Rational_number::operator <=(const Rational_number &b) const {
 	int32_t aa,bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa <= bb ? true : false;
 }
+
 bool Rational_number::operator >(const Rational_number &b) const {
 	int32_t aa,bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa > bb ? true : false;
 }
+
 bool Rational_number::operator >=(const Rational_number &b) const {
 	int32_t aa,bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa >= bb ? true : false;
 }
+
 bool Rational_number::operator ==(const Rational_number &b) const {
 	int32_t aa,bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa == bb ? true : false;
 }
+
 bool Rational_number::operator !=(const Rational_number &b) const {
 	int32_t aa, bb;
 	aa = n*b.m*z;
 	bb = b.n*m*b.z;
 	return aa != bb ? true : false;
 }
+
 Rational_number Rational_number::operator++(int) {
 	int32_t aa = n*z + m;
 	n = aa >= 0 ? aa : (-1)*aa;
@@ -224,6 +243,7 @@ Rational_number Rational_number::operator++(int) {
 	m /= k;
 	return Rational_number(n,m,z);	
 }
+
 Rational_number Rational_number::operator--(int) {
 	int32_t aa = n*z - m;
 	n = aa >= 0 ? aa : (-1)*aa;
@@ -233,6 +253,7 @@ Rational_number Rational_number::operator--(int) {
 	m /= k;
 	return Rational_number(n,m,z);
 }
+
 Rational_number Rational_number::operator+=(const Rational_number &b) {
 	int32_t aa = n*b.m*z;
 	int32_t bb = b.n*m*b.z;
@@ -245,6 +266,7 @@ Rational_number Rational_number::operator+=(const Rational_number &b) {
 	m /= k;
 	return Rational_number(n, m, z);
 }
+
 Rational_number Rational_number::operator-=(const Rational_number &b) {
 	int32_t aa, bb, cc;
 	aa = n*b.m*z;
@@ -258,6 +280,7 @@ Rational_number Rational_number::operator-=(const Rational_number &b) {
 	m /= k;
 	return Rational_number(n, m, z);
 }
+
 Rational_number Rational_number::operator*=(const Rational_number &b) {
 	n *= b.n;
 	m *= b.m;
@@ -267,6 +290,7 @@ Rational_number Rational_number::operator*=(const Rational_number &b) {
 	m /= k;
 	return Rational_number(n,m,z);
 }
+
 Rational_number Rational_number::operator/=(const Rational_number &b) {
 	n *= b.m;
 	m *= b.n;
@@ -276,6 +300,7 @@ Rational_number Rational_number::operator/=(const Rational_number &b) {
 	m /= k;
 	return Rational_number(n, m, z);
 }
+
 std::ostream& operator <<(std::ostream &os, const Rational_number &n) {
 	char *str = n.toString();
 	os << str;
@@ -288,22 +313,26 @@ uint32_t Rational_number::get_n() const { return n; }
 uint32_t Rational_number::get_m() const { return m; }
 int Rational_number::get_z() const { return z; }
 uint32_t Rational_number::get_k() const { return k; }
+
 Rational_number Rational_number::get_number_part() const {
 	uint32_t res = n;
 	uint32_t i = 0;
 	for (; res >= m; i++, res -= m);
 	return Rational_number(i, 1, z);
 }
+
 Rational_number Rational_number::get_fractional_part() const {
 	uint32_t res = n;
 	uint32_t i = 0;
 	for (; res >= m; i++, res -= m);
 	return Rational_number(res, m, z);
 }
+
 void Rational_number::set_n(const uint32_t a) { n = a; }
 void Rational_number::set_m(const uint32_t a) { m = a; }
 void Rational_number::set_z(const int a) { z = a >= 0 ? 1 : -1; }
 void Rational_number::set(const uint32_t a, const uint32_t b, const int c) { n = a; m = b, z = c; } 
+
 // Функции преобразования
 char * Rational_number::toString() const {
 	if (m == 0) throw Exception(ZERODIV_ERR);
@@ -323,38 +352,45 @@ char * Rational_number::toString() const {
 		sprintf(res, "-%d/%d", n, m);
 	return res;
 }
+
 unsigned short Rational_number::toUshort() const {
 	unsigned short res;
 	if ((uint32_t)(n/m) > USHRT_MAX) throw Exception(TRANSFORMATION_ERR);
 	res = (unsigned short)(n / m);
 	return res;
 }
+
 int Rational_number::toInt() const {
 	int res;
 	if ((int32_t)(z * n / m) > INT_MAX || (int32_t)(z * n / m) < INT_MIN) throw Exception(TRANSFORMATION_ERR, "int Rational_number::toInt()");
 	res = (int)(z * n / m);
 	return res;
 }
+
 long int Rational_number::toLint() const {
 	long int res;
 	if ((int64_t)(z * n / m) > LONG_MAX || (int64_t)(z * n / m) < LONG_MIN) throw Exception(TRANSFORMATION_ERR, "long int Rational_number::toLint()");
 	res = (long int)(z * n / m);
 	return res;
 }
+
 short Rational_number::toShort() const {
 	short res;
 	if ((int64_t)(z * n / m) > SHRT_MAX || (int64_t)(z * n / m) < SHRT_MIN) throw Exception(TRANSFORMATION_ERR, "short Rational_number::toShort()");
 	res = (short)(z * n / m);
 	return res;
 }
+
 double Rational_number::toDouble() const {
 	return (double)(z*n/m);
 }
+
 uint32_t Rational_number::most_div(uint32_t a, uint32_t b) {
 	if (b == 0) 
 		return 	a;
 	return most_div(b, a % b);
 }
+
 void Rational_number::make_canonical() {
 	uint32_t o = most_div(n,m);
 	if (n % o != 0 || m % o != 0)

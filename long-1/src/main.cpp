@@ -1,13 +1,3 @@
-/*#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <stdint.h>
-#include <limits.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/fcntl.h>
-#include <unistd.h>*/
 #include "standartlibs.h"
 #include "exception.h"
 #include "rational_number.h"
@@ -59,13 +49,9 @@ int main() {
         m5(2,1)=12;
 
         m5.printDict();
-
-
 	}
 	catch (Exception ex) {
 		cout << "ERROR: " << ex.get_code() << " in " << ex.get_msg() << endl;
 	}
 	return 0;
 }
-
-

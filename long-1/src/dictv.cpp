@@ -23,7 +23,6 @@ DictV::~DictV() {
 
 }
 
-
 DictV::DictV(const DictV &d) {
 	len = d.len;
 	if (d.head != NULL) {
@@ -60,7 +59,6 @@ DictV::DictV(const DictV &d) {
 
 }
 
-
 void DictV::add(const uint32_t key, const Rational_number &v) {
 	if (v == Rational_number(0)) {
 		len++;
@@ -88,7 +86,6 @@ void DictV::add(const uint32_t key, const Rational_number &v) {
 
 }
 
-
 void DictV::set(const uint32_t key, const Rational_number &v) {
 	node *nd = head;
 	while (nd != NULL && nd->x != key) 
@@ -99,6 +96,7 @@ void DictV::set(const uint32_t key, const Rational_number &v) {
 		nd->val = Rational_number(v);
 	return;
 }
+
 Rational_number *DictV::get(const uint32_t x) const {
 	node *nd = head;
 	while (nd != NULL && nd->x != x) 
@@ -107,6 +105,7 @@ Rational_number *DictV::get(const uint32_t x) const {
 	else return &(nd->val);
 
 }
+
 DictV::node *DictV::search(const Rational_number &a) const {
 	node *nd = head;
 	while (nd != NULL && nd->val != a) 
@@ -115,15 +114,18 @@ DictV::node *DictV::search(const Rational_number &a) const {
 	else return nd;
 
 }
+
 bool DictV::in(const Rational_number &a) const {
 	if (search(a) == NULL) return false;
 	else return true;
 
 }
+
 uint32_t DictV::get_len() {
 	return len;
 
 }
+
 void DictV::remove(uint32_t key) {
 	node *nd = head;
 	while (nd != NULL && nd->x != key) 
@@ -141,4 +143,3 @@ void DictV::remove(uint32_t key) {
 	}
 
 }
-

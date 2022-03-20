@@ -1,6 +1,7 @@
 #include "rational_number.h"
 
 #ifndef DICTM
+
 struct node {
 	size_t x;
 	size_t y;
@@ -13,7 +14,9 @@ class DictM {
 	node *head;
 	node *tail;
 	size_t len;
+
 public:
+
 	DictM(): head(NULL), tail(NULL), len(0) {}
 	DictM(const DictM &d);
 	
@@ -33,5 +36,6 @@ public:
 
 	~DictM();
 };
+
 #endif
 #define DICTM

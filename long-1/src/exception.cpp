@@ -5,13 +5,16 @@ Exception::Exception() {
 	code = UNEXPECTED_ERR; 
 	msg = NULL;
 }
+
 Exception::Exception(int a) { 
 	code = a; 
 	msg = NULL;
 }
+
 int Exception::get_code() { 
 	return code; 
 }
+
 const char *Exception::get_msg() {
 	if (msg == NULL) {
 		char *res = (char *)malloc(sizeof(char)*(strlen("Unknown") + 1));
@@ -26,6 +29,7 @@ const char *Exception::get_msg() {
 		return (const char *)res;
 	}
 }
+
 Exception::Exception(int a, const char *b) {
 	code = a;
 	msg = (char *)malloc(sizeof(char)*(strlen(b)+1));
@@ -33,10 +37,12 @@ Exception::Exception(int a, const char *b) {
 	strcpy(msg, b);
 	msg[strlen(b)] = '\0';
 }
+
 Exception::~Exception() {
 	if (msg != NULL)
 		free(msg);
 }
+
 Exception::Exception(const Exception &a) {
 	if (a.msg != NULL) {
 		msg = (char *)malloc(sizeof(char) * (strlen(a.msg) + 1));

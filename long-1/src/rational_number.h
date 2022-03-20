@@ -6,7 +6,9 @@ class Rational_number {
 	uint32_t m;
 	int z;
 	uint32_t k;
+
 public:
+
 	// Конструкторы
 	Rational_number(): n(0), m(1), z(1) {}
 	Rational_number(const int x);
@@ -48,6 +50,7 @@ public:
 	void set_m(const uint32_t a);
 	void set_z(const int a);
 	void set(const uint32_t a, const uint32_t b, const int c);
+
 	// Функции преобразования
 	char *toString() const;
 	unsigned short toUshort() const;

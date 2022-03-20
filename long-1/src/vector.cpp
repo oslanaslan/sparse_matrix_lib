@@ -5,17 +5,18 @@
 #include "vector.h"
 
 Vector::Vector(const Vector &a) {
-		vec = DictV(a.vec);
-		len = a.len;
-	}
-Vector::Vector(const uint32_t size, Rational_number parametr) {
-		len = size;
-		if (parametr != Rational_number((long)0)) {
-			for (uint32_t i = 0; i < len; i++) 
-				vec.add(i, parametr);
-		}
+	vec = DictV(a.vec);
+	len = a.len;
+}
 
+Vector::Vector(const uint32_t size, Rational_number parametr) {
+	len = size;
+	if (parametr != Rational_number((long)0)) {
+		for (uint32_t i = 0; i < len; i++) 
+			vec.add(i, parametr);
 	}
+}
+
 Vector operator +(Vector &a, Vector &b) {
 	if (a.len != b.len) throw Exception(VECLEN_ERR);
 	Vector c;
@@ -28,6 +29,7 @@ Vector operator +(Vector &a, Vector &b) {
 	}
 	return c;
 }
+
 Vector operator +(Vector &a, Rational_number &b) {
 	Vector c;
 	c.len = a.len;
@@ -51,6 +53,7 @@ Vector operator -(Vector &a, Vector &b) {
 	}
 	return c;
 }
+
 Vector operator -(Vector &a, Rational_number &b) {
 	Vector c;
 	c.len = a.len;
@@ -60,9 +63,10 @@ Vector operator -(Vector &a, Rational_number &b) {
 		c.set(i, aa - b);
 	}
 	return c;
-
 }
-Rational_number operator *(Vector &a, Vector &b) { // Скалярное произведение
+
+// Скалярное произведение
+Rational_number operator *(Vector &a, Vector &b) {
 	if (a.len != b.len) throw Exception(VECLEN_ERR);
 	Rational_number c = Rational_number((long)0);
 	Rational_number aa, bb;
@@ -73,6 +77,7 @@ Rational_number operator *(Vector &a, Vector &b) { // Скалярное про�
 	}
 	return c;
 }
+
 Vector operator *(Vector &a, Rational_number &b) {
 	if (b == Rational_number((long)0)) throw Exception(ZERODIV_ERR);
 	Vector c;
@@ -96,13 +101,7 @@ Vector operator /(Vector &a, Rational_number &b) {
 	}
 	return c;
 }
-/*Vector::operator =(const Vector &a) {
-	if (&a == this) return *this;
-	(*this).vec = DictV(a.vec);
-	(*this).len = a.len;
-	return *this;
 
-}*/
 bool operator ==(const Vector &a, const Vector &b) {
 	if (b.len != a.len) return false;
 	bool res = true;
@@ -110,22 +109,23 @@ bool operator ==(const Vector &a, const Vector &b) {
 		if ((*(b.vec.get(i))) != (*(a.vec.get(i)))) 
 			res = false;
 	return res;
-
 }
+
 bool operator !=(const Vector &a, const Vector &b) {
 	return b == a ? false : true;
 }
+
 Vector Vector::operator -() {
 	Vector c;
-	Rational_number *aa;
+	Rational_number *a;
 	c.len = len;
 	for (uint32_t i = 0; i < len; i++) {
-		aa = vec.get(i);
-		if (aa != NULL) c.vec.add(i, (*aa)*(-1));
+		a = vec.get(i);
+		if (a != NULL) c.vec.add(i, (*a)*(-1));
 	}
 	return c;
-
 }
+
 Rational_number Vector::operator [](const uint32_t index) {
 	if (index >= len) throw Exception(INDEXOUTOFRANGE_ERR, "Rational_number operator [](const uint32_t index)");
 	Rational_number *a = vec.get(index);
@@ -134,24 +134,27 @@ Rational_number Vector::operator [](const uint32_t index) {
 	else
 		return *a;
 }
+
 void Vector::operator ()(Rational_number &a, const uint32_t index) {
 	if (index >= len) throw Exception(INDEXOUTOFRANGE_ERR, "void operator ()(Rational_number &a, const uint32_t index)");
 	vec.set(index, a);
 	return;
 }
+
 std::ostream &operator <<(std::ostream &os, Vector &v) {
 	char *str = v.toString();
 	os << str;
 	free(str);
 	return os;
 }
+
 void Vector::write(FILE *fd) {
 	char *str1 = (*this).toString();
 	int k = ::fwrite(str1, sizeof(char), strlen(str1), fd);
 	if ((uint64_t)k < (uint64_t)strlen(str1)*sizeof(char)) throw Exception(UNEXPECTED_ERR, "void write(const char *name)");
 	return;
-		
 }
+
 void Vector::write(const char *name) {
 	FILE *fd = fopen(name, "w");
 	if (fd == NULL) throw Exception(UNEXPECTED_ERR, "Such file exists: Vector.write");
@@ -159,6 +162,7 @@ void Vector::write(const char *name) {
 	fclose(fd);
 	return;
 }
+
 void Vector::read(const char *name) {
 	int fd = open(name, O_RDWR|O_EXCL);
 	if (fd <= 0 ) throw Exception(UNEXPECTED_ERR, "Such file doesn't exist: Vector.read");
@@ -173,7 +177,9 @@ void Vector::read(const char *name) {
 	close(fd);
 	return;	
 }
-void Vector::read(const int fd) {		// not tested
+
+// Not tested
+void Vector::read(const int fd) {
 	char *num = (char *)malloc(sizeof(char));
 	num[0] = '\0';
 	uint64_t a = read_x(fd);
@@ -190,6 +196,7 @@ void Vector::read(const int fd) {		// not tested
 	}
 	return;
 }
+
 uint64_t Vector::read_x(int fd) {
 	char c;
 	char word[10] = "vector";
@@ -249,13 +256,15 @@ uint64_t Vector::read_x(int fd) {
 	else 
 		return 0;
 }
+
+// Читаем первые лишние пробелы и пустые строки до первого числа или конца файла
 Vector::data_st Vector::read_data(int fd) {
 	data_st st;
 	char *word = (char *)malloc(sizeof(char));
 	size_t word_ptr = 0;
 	word[0] = '\0';
 	char c = '\0';
-	while (true) {	// Читаем первые лишние пробелы и пустые строки до первого числа или конца файла
+	while (true) {
 		int k = ::read(fd, &c, sizeof(char));
 		if (k == 0) {
 			st.isEmpty = true;
@@ -340,10 +349,12 @@ Vector::data_st Vector::read_data(int fd) {
 	}
 	return st;
 }
+
+// Чтобы исключить лишнюю ',' в начале строки
 char *Vector::toString() {
 	uint32_t ll = 0;
 	char *num;
-	bool trigger = false;	// Чтобы исключить лишнюю ',' в начале строки	
+	bool trigger = false;
 	char *res = (char *)malloc(sizeof(char));
 	res[0] = '[';
 	ll = 1;
@@ -385,22 +396,27 @@ char *Vector::toString() {
 	res[ll++] = '\0';
 	return res;
 }
+
 void Vector::add(Rational_number a) {
 	vec.add(len, a);
 	len++;
 	return;
 }
+
 void Vector::set(uint64_t x, Rational_number a) {
 	if (x >= len) throw Exception(INDEXOUTOFRANGE_ERR, "void set(uint64_t x, Rational_number)");
 	vec.set(x, a);
 	return;			
 }
+
 void Vector::set_n(uint64_t n) {
 	len = n;	
 }
+
 size_t Vector::get_len() {
 	return len;
 }
+
 void Vector::make_canonical() {
 	Rational_number *num;
 	for (uint64_t i = 0; i < len; i++) {

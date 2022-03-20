@@ -113,6 +113,7 @@ Matrix Matrix::operator -() {
 	}
 	return new_matrix;
 }
+
 Matrix Matrix::operator ~() {
 	Matrix new_matrix = Matrix(get_m(), get_n());
 	for (size_t i  = 0; i < get_n(); i++) {
@@ -208,6 +209,7 @@ void Matrix::read(const int fd) {
 	free(a);
 	return;
 }
+
 uint64_t* Matrix::read_x_y(int fd) {
 	char c;
 	char word[10] = "matrix";
@@ -295,7 +297,6 @@ uint64_t* Matrix::read_x_y(int fd) {
 
 }
 
-
 void Matrix::write(FILE *fd) {	
 	char *str = (*this).toString();
 	size_t k = ::fwrite(str, sizeof(char), strlen(str), fd);
@@ -356,13 +357,15 @@ char *Matrix::toString() const {
 	return res;	
 }
 
-Matrix::data_st Matrix::read_data(int fd) {	// not tested
+Matrix::data_st Matrix::read_data(int fd) {	// Not tested
 	data_st st;
 	char *word = (char *)malloc(sizeof(char));
 	size_t word_ptr = 0;
 	word[0] = '\0';
 	char c = '\0';
-	while (true) {	// Читаем первые лишние пробелы и пустые строки до первого числа или конца файла
+
+	// Читаем первые лишние пробелы и пустые строки до первого числа или конца файла
+	while (true) {
 		int k = ::read(fd, &c, sizeof(char));
 		if (k == 0) {
 			st.isEmpty = true;
@@ -387,7 +390,9 @@ Matrix::data_st Matrix::read_data(int fd) {	// not tested
 	word = (char *)realloc(word, sizeof(char)*(word_ptr + 2));
 	word[word_ptr++] = c;
 	word[word_ptr] = '\0';
-	while (true) {	// Читаем первую координату
+
+	// Читаем первую координату
+	while (true) {
 		int k = ::read(fd, &c, sizeof(char));
 		if (k == 0) {
 			st.isEmpty = true;
@@ -408,9 +413,11 @@ Matrix::data_st Matrix::read_data(int fd) {	// not tested
 		}
 	}
 	st.x = atoi(word);
-	free(word);	//
-	word_ptr = 0;	//
-	while (true) {	// Читаем пробелы после первой координаты
+	free(word);
+	word_ptr = 0;
+
+	// Читаем пробелы после первой координаты
+	while (true) {
 		int k = ::read(fd, &c, sizeof(char));
 		if (k == 0) {
 			st.isEmpty = true;
@@ -424,11 +431,13 @@ Matrix::data_st Matrix::read_data(int fd) {	// not tested
 			throw Exception(FILE_ERR, "Matrix: Matrix::data_st Matrix::read_data(int fd)");
 		}
 	}
-	word = (char *)malloc(sizeof(char)*2);	//
-	word[0] = c;	//
-	word[1] = '\0';	//
+	word = (char *)malloc(sizeof(char)*2);
+	word[0] = c;
+	word[1] = '\0';
 	word_ptr = 1;
-	while (true) {	// Читаем вторую координату
+
+	// Читаем вторую координату
+	while (true) {
 		int k = ::read(fd, &c, sizeof(char));
 		if (k == 0) {
 			st.isEmpty = true;
@@ -472,7 +481,7 @@ Matrix::data_st Matrix::read_data(int fd) {	// not tested
 
 	st.isEmpty = false;
 	try {
-		st.num = Rational_number(word); //
+		st.num = Rational_number(word);
 	}
 	catch (...) {
 		free(word);
@@ -494,20 +503,18 @@ Matrix::Matrix(const Matrix &a) {
 			}
 		}
 	}
-
 }
 
 void Matrix::printDict() const {
 	node *head = dict.get_head();
 	std::cout << "Dict List:" << std::endl;
 	while (head != NULL) {
-		char *ololo = (head->num).toString();
-		std::cout << "(" << head->x << ", " << head->y << ", " << ololo << ")" << std::endl;
-		free(ololo);
+		char *output_string = (head->num).toString();
+		std::cout << "(" << head->x << ", " << head->y << ", " << output_string << ")" << std::endl;
+		free(output_string);
 		head = head->next;
 	}
 }
-
 
 std::ostream &operator<<(std::ostream &os, const Matrix &m) {
 	char *str = m.toString();
@@ -515,6 +522,7 @@ std::ostream &operator<<(std::ostream &os, const Matrix &m) {
 	free(str);
 	return os;
 }
+
 void Matrix::make_canonical() {
 	Rational_number *ptr;
 	for (uint64_t i = 0; i < n; i++) {

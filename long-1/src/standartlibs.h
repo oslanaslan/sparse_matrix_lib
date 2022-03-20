@@ -1,4 +1,5 @@
 #ifndef STANDARTLIBS
+
 	#include <cstdlib>
 	#include <cstdio>
 	#include <iostream>
@@ -9,5 +10,6 @@
 	#include <sys/stat.h>
 	#include <fcntl.h>
 	#include <unistd.h>
+
 #endif
 #define STANDARTLIBS

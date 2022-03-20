@@ -1,6 +1,7 @@
 #include "rational_number.h"
 
 #ifndef DICTV
+
 class DictV {
 	uint32_t len;
 	struct node {
@@ -12,12 +13,12 @@ class DictV {
 	node *head;
 	node *tail;
 public:
-	// Операторы
-//	DictV operator =(const DictV &d);
+
 	// Конструкторы
 	DictV();
 	~DictV();
 	DictV(const DictV &d);
+
 	// Методы
 	void add(const uint32_t key, const Rational_number &v);
 	void set(const uint32_t key, const Rational_number &v);

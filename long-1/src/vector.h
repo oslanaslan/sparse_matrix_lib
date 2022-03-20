@@ -1,15 +1,19 @@
 #include "dictv.h"
 
 #ifndef VECTOR
+
 class Vector {
 	uint32_t len;
 	DictV vec;
+
 public:
+
 	// Конструкторы
 	Vector(): len(0) {}
 	Vector(const Vector &a);
 	Vector(const uint32_t size, Rational_number parametr);
 	~Vector() {}
+
 	// Операторы
 	friend Vector operator +(Vector &a, Vector &b);
 	friend Vector operator +(Vector &a, Rational_number &b);
@@ -18,6 +22,7 @@ public:
 	friend Rational_number operator *(Vector &a, Vector &b); // Скалярное произведение
 	friend Vector operator *(Vector &a, Rational_number &b);
 	friend Vector operator /(Vector &a, Rational_number &b);
+
 	Vector operator =(const Vector &a) {
 	if (&a == this) return *this;
 		(*this).vec = DictV(a.vec);
@@ -37,11 +42,13 @@ public:
 	void write(FILE *fd);
 	void write(const char *name);
 	void read(const char *name);
+
 	struct data_st {
 		bool isEmpty;
 		uint64_t x;
 		Rational_number num;
 	};
+
 	void read(const int fd);
 	uint64_t read_x(int fd);
 	data_st read_data(int fd);
@@ -52,7 +59,6 @@ public:
 	size_t get_len();
 	void make_canonical();
 };
-
 
 #endif
 #define VECTOR
